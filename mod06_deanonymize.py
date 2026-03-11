@@ -22,8 +22,9 @@ def link_records(anon_df, aux_df):
     merged = pd.merge(anon_df, aux_df, on=q_identifiers)
     match_counts = merged.groupby('anon_id').size()
     unique_ids = match_counts[match_counts == 1].index
-    final_matches = merged[merged['anon_id'].isin(unique_ids)]
-    return final_matches[['anon_id', 'name']]
+    final_matches = merged[merged['anon_id'].isin(unique_ids)].copy()
+    final_matches = final_matches.rename(columns={'name': 'matched_name'})
+    return final_matches[['anon_id', 'matched_name']]
 
    
 
